@@ -1,0 +1,223 @@
+<include file="header"/>
+
+
+<script>
+	// 定义变量
+	var room_id  = <{$info.room_id}>;
+	var user_id = <{$info.user_id}>;
+	var session_id = '<{$info.session_id}>';
+	var url = '<?php echo $info['lConUrl'].U('Room/getInfo'); ?>';
+	var sessionUrl = '<?php echo U('Session/update') ?>';
+	var updateUrl = '<?php echo U('Room/updateInfo') ?>';
+	var compileUrl = '<?php echo U('Compile/compileRun') ?>';
+</script>
+
+<div id="room">
+	<div class="header">
+		<div class="logo">
+			<img src="__ROOT__/images/room/baixing_logo.png">
+		</div>
+	</div>
+	
+	<div class="main">
+	
+		<div class="left_area">
+			<div class="top">
+				求职者视频
+			</div>
+				
+			<div class="video first_video">
+				<?php 
+					$myid = 0;
+					$yourid = 1;
+					if ($_GET['admin'] == 1) {
+						$myid = 1;
+						$yourid = 0;
+					}
+				?>
+				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$yourid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+			</div>
+
+			<div class="top">
+				消息窗口
+			</div>
+			
+			<div id="plugin_message" class="message">
+				<div class="content">
+				</div>
+				<div class="input">
+					<div class="it ct"><input placeholder="请输入您的消息..."></div>
+					<div class="it sb" onclick="submit_message()">发送</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="interactive">
+			<div class="top">
+				<ul>
+					<li id="btn_info" class="active" onclick="show_plugin('info')"><i class="icon-home icon-white"></i>信息</li>
+					<li id="btn_resume" onclick="show_plugin('resume')"><i class="icon-file icon-white"></i>简历</li>
+					<li id="btn_code" onclick="show_plugin('code')"><i class="icon-th icon-white"></i>代码</li>
+					<li id="btn_blackboard" onclick="show_plugin('blackboard')"><i class="icon-edit icon-white"></i>白板</li>
+					<li id="btn_webpage" onclick="show_plugin('webpage')" style="border:0;"><i class="icon-bookmark icon-white"></i>网页</li>
+				</ul>
+			</div>
+			
+			<!--信息版-->
+			<div id="plugin_info" class="ct">			
+				<div style="height:0;">&nbsp;</div>	
+				<div class="plugin_info">
+					<div style="height:0;">&nbsp;</div>
+					<div class="item title">
+						<img src="__ROOT__/images/room/interview_info.jpg">
+					</div>
+					<div class="item">
+						<span class="tt">房间编号：</span>BX1234
+					</div>
+					<div class="item">
+						<span class="tt">公司名称：</span>百姓网
+					</div>
+					<div class="item">
+						<span class="tt">开始时间：</span><span id="start_time">0000-00-00 00:00</span>
+					</div>
+					<div class="item">
+						<span class="tt">持续时间：</span><span id="timer">0秒</span>
+					</div>
+					<div class="item">
+						<span class="tt">面试者：</span>黄小偲
+					</div>
+					<div class="item">
+						<span class="tt">面试官：</span>黄大偲
+					</div>
+					<div class="item">
+						<span class="tt">求职意向：</span>软件工程师（SDE）
+					</div>
+					<div class="item">
+						<span class="tt">相关说明：</span>本次面试大概持续一个小时，共有三道面试题。
+					</div>
+					<div class="item">
+						<span class="tt">注意事项：</span><br>
+						1、请确保您的面试环境良好，摄像头、麦克风等设备工作正常。<br>
+						2、面试时请尽量关闭其他占用网络资源的程序，让面试过程更加顺利流畅。<br>
+						3、推荐使用<a href="http://www.google.com/chrome" target="_blank">最新版Chrome浏览器</a>进行面试，分辨率至少为1024*768。<br>
+					</div>
+				</div>
+			</div>
+
+
+			<!--简历-->
+			<div id="plugin_resume" class="ct" style="display:none;overflow:hidden;">
+				<iframe src="__ROOT__/resume/resume.pdf" style="border:0;height:100%;width:100%;"></iframe>
+			</div>
+			
+			<!--代码编辑器-->
+			<div id="plugin_code" class="ct" style="display:none;">
+				<div class="tool">
+					<div class="item" onclick="inputData()">
+						<i class="icon-font icon-white"></i>&nbsp;输入数据
+					</div>
+					<div class="item compile" onclick="compileRun()">
+						<i class="icon-play-circle icon-white"></i>&nbsp;编译运行
+					</div>
+					<div class="item" onclick="showResult()">
+						<i class="icon-refresh icon-white"></i>&nbsp;查看运行结果
+					</div>
+				</div>
+				<div class="data">
+					<textarea id="input_data" placeholder="在这里输入数据..."></textarea>
+					<textarea id="output_data"></textarea>
+				</div>
+				<div id="editor"></div>
+				<div class="editor_scrollbar_inner"></div>
+			</div>
+			
+			<!--黑板插件-->
+			<div id="plugin_blackboard" class="ct" onselectstart="return false" style="display:none;">
+				<div class="plugin_blackboard">
+					<div class="tool">							
+						<div class="item color" onclick="changePenColor('#1d1d1d')">
+							<img src="__ROOT__/images/room/blackboard/pen_white.png">&nbsp;黑笔
+						</div>
+						<div class="item color" onclick="changePenColor('#b91d47')">
+							<img src="__ROOT__/images/room/blackboard/pen_red.png">&nbsp;红笔
+						</div>
+						<div class="item color" onclick="changePenColor('#e3a21a')">
+							<img src="__ROOT__/images/room/blackboard/pen_yellow.png">&nbsp;黄笔
+						</div>
+						<div class="item color" onclick="changePenColor('#2b5797')">
+							<img src="__ROOT__/images/room/blackboard/pen_blue.png">&nbsp;蓝笔
+						</div>
+						<div id="rubber" class="item rubber">
+							<img src="__ROOT__/images/room/blackboard/rubber.png">&nbsp;橡皮
+						</div>
+						<div id="clearBoard" class="item clear_board">
+							<img src="__ROOT__/images/room/blackboard/clear.png">&nbsp;清除
+						</div>
+						<div class="clear"></div>
+					</div>
+					<canvas id="canvas"></canvas>
+					<script type="text/javascript" src="__ROOT__/js/blackboard.js"></script>
+				</div>
+			</div>
+			
+			<!--网页插件-->
+			<div id="plugin_webpage" class="ct" style="display:none;">
+				<div class="plugin_webpage">
+					<div class="tab">
+						<div class="item" style="cursor:pointer;" onclick="create_webpage('')">
+							<span>新标签</span>
+							<i class="icon icon-plus"></i>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="tool">
+						<div class="item" onclick="redirect_webpage(cnt_webpage_name, '')"><img src="__ROOT__/images/room/webpage/refresh.png"></div>
+						<div class="item" onclick="redirect_webpage(cnt_webpage_name, 'www.baidu.com')"><img src="__ROOT__/images/room/webpage/homepage.png"></div>
+						<div class="url item">
+							<form id="url_form" onsubmit="return redirect_webpage(cnt_webpage_name, $('#plugin_webpage .tool input').val())">
+								<input type="text" value="">
+							</form>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="page">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="right_area">
+			<div class="top">
+				面试官视频
+			</div>
+			<div class="video first_video">
+				<embed class="video_obj" src="__ROOT__/flash/tt.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+			</div>
+			<div class="video">
+				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+			</div>
+			<div class="video">
+				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div class="footer">
+	</div>
+	
+	<br class="clear">
+	
+	<div id='grey'></div>
+
+</div>
+
+<script>
+(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
+</script>
+
+<include file="footer"/>
+
+
