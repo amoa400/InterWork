@@ -27,15 +27,11 @@
 			</div>
 				
 			<div class="video first_video">
-				<?php 
-					$myid = 0;
-					$yourid = 1;
-					if ($_GET['admin'] == 1) {
-						$myid = 1;
-						$yourid = 0;
-					}
+				<?php
+					$swf = 'aa.swf';
+					if ($_GET['user_id'] == 2) $swf = 'tt.swf';
 				?>
-				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$yourid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+				<embed class="video_obj" src="__ROOT__/flash/<{$swf}>?ip=__ROOTIP__&flag=interview2" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
 			</div>
 
 			<div class="top">
@@ -192,14 +188,26 @@
 			<div class="top">
 				面试官视频
 			</div>
+			<?php
+				$swf = 'aa.swf';
+				if ($_GET['user_id'] == 1) $swf = 'tt.swf';
+			?>
 			<div class="video first_video">
-				<embed class="video_obj" src="__ROOT__/flash/tt.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+				<embed class="video_obj" src="__ROOT__/flash/<{$swf}>?ip=__ROOTIP__&flag=interview1" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
 			</div>
+			<?php
+				$swf = 'aa.swf';
+				if ($_GET['user_id'] == 3) $swf = 'tt.swf';
+			?>
 			<div class="video">
-				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+				<embed class="video_obj" src="__ROOT__/flash/<{$swf}>?ip=__ROOTIP__&flag=interview3" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
 			</div>
+			<?php
+				$swf = 'aa.swf';
+				if ($_GET['user_id'] == 4) $swf = 'tt.swf';
+			?>
 			<div class="video">
-				<embed class="video_obj" src="__ROOT__/flash/aa.swf?ip=__ROOTIP__&flag=interview<{$myid}>" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
+				<embed class="video_obj" src="__ROOT__/flash/<{$swf}>?ip=__ROOTIP__&flag=interview4" type="application/x-shockwave-flash" width="320" height="240" allowFullScreen="true" wmode="transparent" quality="high"></embed>
 			</div>
 		</div>
 	

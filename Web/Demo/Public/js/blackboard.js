@@ -159,6 +159,8 @@ function reDraw(x1, y1, x2, y2, color) {
 
 // 重新橡皮擦除
 function reRubber(x1, y1) {
+	x1 = parseInt(x1*config.width/config.width2);
+	y1 = parseInt(y1*config.height/config.height2);
 	config.context2.clearRect(x1, y1, config.pressure*config.ratio*3, config.pressure*config.ratio*3);
 } 
 

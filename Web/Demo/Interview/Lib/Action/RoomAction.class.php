@@ -24,6 +24,7 @@ class RoomAction extends Action {
 			D('Session')->u($data);
 		}
 		$info['lConUrl'] = 'http://t'.$data['server_id'].'.xiaoqs.com';
+		//$info['lConUrl'] = 'http://111.186.54.241:88';
 		
 		$this->assign('info', $info);
 		$this->display();
