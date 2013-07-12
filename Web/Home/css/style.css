@@ -115,30 +115,65 @@
 		background:none;
 	}
 
-	.mainbody{
-		overflow:hidden;
+	#homepage.mainbody {
 		background:url(../img/1/bk.jpg);
 		background-color: #16528E;
 		color:#ffffff;
-	}
-	
-	.mainbody #myCarousel,.row{
 		height:405px;
 	}
 	
-	.mainbody #intro{
-		background-color:#ffffff;
-		color:#5a5a5a;
+	#homepage.mainbody #myCarousel,.row{
+		overflow:hidden;
+		height:405px;
 	}
 	
 	.mainbody .carousel-indicators li{
 		cursor:pointer;
 	}
 	
+	#product.mainbody {
+		color:#5a5a5a;
+	}
+	
+	#product.mainbody #intro{
+		padding-top:200px;
+	}
+	
+	#contact.mainbody .container{
+		padding-bottom:20px;
+	}
+	
+	#contact.mainbody .cnttitle{
+		background: #FFF;
+		position: relative;
+		bottom: -15px;
+		display: inline;
+		padding:2px;
+		margin-left:20px;
+	}
+	
+	#contact.mainbody .cntbody{
+		border: 1px solid #003D56;
+		padding:30px;
+		height:700px;
+	}
+	
+	#contact.mainbody .cntbody h4{
+		border-bottom:1px dashed #003D56;
+	}
+	
+	#contact.mainbody .cntbody div{
+		padding-bottom:20px;
+	}
+	
+	#contact.mainbody .cntbody img{
+		padding-left:600px;
+		clear:right;
+	}
+	
 	.bottomArea{
 		border-top:1px solid #d4d4d4;
 		background:#F6F6F6;
-		height:160px;
 	}
 	
 	.bottomArea .nav{
