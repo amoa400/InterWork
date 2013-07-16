@@ -26,7 +26,7 @@ class CompanyModel extends Model {
 		$addArr['represent'] = $inputArr['represent'];
 		$addArr['tele'] = $inputArr['tele'];
 		$addArr['email'] = $inputArr['email'];
-		
+		var_dump($addArr);
 		return $this->add($addArr);
 	}
 	

@@ -15,6 +15,7 @@ class BelongsModel extends Model {
 	);
 	
 	public function add_belong( $inputArr ){
+		//var_dump($inputArr);
 		$date = $this->where("cid={$inputArr["cid"]} AND uid={$inputArr["uid"]}")->find();
 		if($date){ return false; }
 		$addArr['cid'] = $inputArr['cid'];

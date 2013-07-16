@@ -2,7 +2,7 @@
 	<?php
 		if($_SESSION['login']){
 	?>
-	<p>欢迎！<b>{$_SESSION['name']}</b><a href="{$url_logout}">登出</a></p>
+	<p>欢迎！<b><a href="{$url_user_profile}">{$_SESSION['name']}</a></b><a href="{$url_logout}"> 登出</a></p>
 	<?php  }
 		else{
 	?>

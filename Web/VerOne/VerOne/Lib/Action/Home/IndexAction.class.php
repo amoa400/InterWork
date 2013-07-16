@@ -3,11 +3,20 @@
 class IndexAction extends Action{
 	
 	public function index(){
-		
-		//echo(U("Home/Index/register"));
+		/*$reg = "/\b12\b/";
+		$match = array();
+		$str = "1234;312;3123;12;123;";
+		var_dump(preg_match($reg, $str, $match));
+		var_dump($match);
+		$arr = array("a"=>1, "b"=>2);
+		foreach($arr as $i){
+			$i = 0;
+		}
+		var_dump($arr);*/
 		$this->assign("url_logout", U("Home/Index/logout"));
 		$this->assign("url_login",U("Home/Index/login"));
 		$this->assign("url_regsiter", U("Home/Index/register"));
+		$this->assign("url_user_profile", U("Profile/User/index"));
 		$this->assign("content", "Index:index");
 		$this->display("Public:Public:base");
 	}
@@ -26,8 +35,9 @@ class IndexAction extends Action{
 		
 		$user = D("Obj/User");
 		if($user->add_user( $inputArr )){
-			$_SESSION = $inputArr;
+			$_SESSION = $user->where("email='{$inputArr["email"]}'")->find();
 			$_SESSION['login'] = true;
+			$_SESSION['psw'] = NULL;
 			$this->redirect("Home/Index/index", "", 1, "注册成功");
 		}
 		else{
@@ -53,7 +63,7 @@ class IndexAction extends Action{
 			$_SESSION['tip'] = "用户名或密码错误";
 		}
 		//var_dump($_SESSION);
-		$this->redirect("Home/Index/index", "", 0, "");
+		$this->redirect("Profile/User/index", "", 0, "");
 	}
 	
 	public function logout(){
