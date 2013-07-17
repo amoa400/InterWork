@@ -1,0 +1,30 @@
+<div>
+	<div><h1>{$company['name']}</h1></div>
+	<div>
+		<p>{$permission['name']}<a href="{$url_return}">返回</a></p>
+	</div>
+	<?php
+		if($permission['code'] & 32){
+	?>
+	<div>
+		<p>申请者列表：</p>
+		<table>
+		<volist name="apps" id="item">
+			<tr>
+				<td>{$app_names[$item['uid']]['name']}</td>
+				<td>{$app_names[$item['uid']]['email']}</td>
+				<td><form action="{$url_pass_app}" method="post">
+					<input type="submit" value="通过" />
+					<input type="hidden" name="uid" value="{$item['uid']}" />
+					<input type="hidden" name="cid" value="{$company['cid']}" />
+				</form></td>
+			</tr>
+		</volist>
+		</table>
+	</div>
+	
+	<div><a href="{$url_show_members}&cid={$_GET['cid']}">成员管理</a></div>
+	<?php
+		}
+	?>
+</div>

@@ -1,0 +1,48 @@
+<div>
+	<form action="{$url_modify_pm}" method="post">
+	<input type="hidden" name="cid" value="{$_GET['cid']}" />
+	<table>
+	<volist name="permissions" id="p">
+		<tr><td>{$p["name"]}:</td>
+			<td><input value="{$p['id']}" class="all" type="checkbox" />全选</td>
+			<td></td>
+		</tr>
+		<volist name="members" id="one">
+			<?php  if($one['group'] == $p['id']){ ?>
+				<tr>
+					<td>{$member_details[$one['uid']]["name"]}</td><td>{$member_details[$one['uid']]["email"]}</td>
+					<td><input class="group{$p['id']}" type="checkbox" name="who[]" value="{$one['uid']}"></td>
+				</tr>
+			<?php  }  ?>
+		</volist>
+	</volist>
+	</table>
+	<div>批量修改为：<select name="group">
+		<volist name="permissions" id="p"><option value="{$p['id']}">{$p["name"]}</option></volist>
+	</select><input type="submit" value="提交" /></div>
+	</form>
+	<div><a href="{$url_return}&cid={$_GET['cid']}">返回</a></div>
+
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".all").change(function(){
+				var str = $(this).attr("value");
+				str = ".group" + str;
+				var checked = $(this).attr("checked");
+				if(checked == "checked"){
+					$(str).attr("checked", "checked");
+				}
+				else{
+					$(str).removeAttr("checked");
+				}
+			});
+			/*$("#ajaxdemo").click(function(){
+				$.post("{$url_ajax}", $("form").serialize(), function(data,status){
+					$("#ajaxdemo").text(status);
+					$("#debug").text(data+"\n"+$("#theform").serialize());
+				})
+			});*/
+		});
+	</script>
+</div>
