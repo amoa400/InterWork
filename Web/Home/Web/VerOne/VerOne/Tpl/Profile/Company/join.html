@@ -1,0 +1,24 @@
+<div>
+	<form action="{$url_self}&" method="get">
+		<input type="hidden" name="g" value="Profile" />
+		<input type="hidden" name="m" value="Company" />
+		<input type="hidden" name="a" value="join" />
+		<input type="text" name="name" />
+		<input type="submit" value="搜索" />
+	</form>
+	<?php
+		if($_GET["name"]){
+	?>
+		<volist name="companys" id="item">
+			<div>
+				<p>
+					<b><a href="{$url_company_profile}&cid={$item['cid']}">{$item['name']}</a></b> 
+					<a href="{$url_join_action}&cid={$item['cid']}">加入</a>
+				</p>
+				<p>电话：{$item['tele']}   Email：{$item['email']}</p>
+			</div>
+		</volist>
+	<?php
+		}
+	?>
+</div>

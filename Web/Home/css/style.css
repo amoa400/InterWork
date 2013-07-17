@@ -96,6 +96,18 @@
 	.header .nav li.about a:hover{
 		background-position:-243px 0;
 	}
+		
+	.header .nav li.login a{
+		background-position:-324px -90px;
+	}
+	
+	.header .nav li.login a.on{
+		background-position:-324px 0;
+	}
+	
+	.header .nav li.login a:hover{
+		background-position:-324px 0;
+	}
 	
 	.header .nav li a span{
 		display:block;
