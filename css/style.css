@@ -1,0 +1,221 @@
+	ul,li{
+		list-style-type:none;
+	}
+	
+	a{
+		color:#333;
+		text-decoration:none;
+		outline:none;
+	}
+	
+	body{
+		line-height:22px;
+		font-family:"Î¢ÈíÑÅºÚ",Verdana;
+		color: #5a5a5a;
+    }
+	.header{
+		height:90px;
+		padding-left:200px;
+		margin:0 auto;
+		position:relative;
+		overflow:hidden;
+		background-color:#ffffff;
+	}
+
+	.header .nav{
+		float:right;
+		margin-right:46px;
+	}
+	
+	.header .nav li{
+		width:80px;
+		height:90px;
+		float:left;
+		position:relative;
+	}
+	
+	.header .nav li a{
+		display:block;
+		width:80px;
+		height:90px;
+		background-image:url(../img/1/menu.png);
+		background-repeat:no-repeat;
+	}
+	
+	.header .nav li a{
+		-moz-transition:background 0.1s linear;
+		-o-transition:background 0.1s linear;
+		-webkit-transition:background 0.1s linear;
+		transition:background 0.1s linear;
+	}
+	
+	.header .nav li.home a{
+		background-position:0 -90px;
+	}
+	
+	.header .nav li.home a:hover{
+		background-position:0 0;
+	}
+	
+	.header .nav li.home a.on{
+		background-position:0 0;
+	}
+	
+	.header .nav li.func a{
+		background-position:-81px -90px;
+	}
+	
+	.header .nav li.func a:hover{
+		background-position:-81px 0;
+	}
+	
+	.header .nav li.func a.on{
+		background-position:-81px 0;
+	}
+	
+	.header .nav li.demo a{
+		background-position:-162px -90px;
+	}
+	
+	.header .nav li.demo a.on{
+		background-position:-162px 0;
+	}
+	
+	.header .nav li.demo a:hover{
+		background-position:-162px 0;
+	}
+	
+	.header .nav li.about a{
+		background-position:-243px -90px;
+	}
+	
+	.header .nav li.about a.on{
+		background-position:-243px 0;
+	}
+	
+	.header .nav li.about a:hover{
+		background-position:-243px 0;
+	}
+		
+	.header .nav li.login a{
+		background-position:-324px -90px;
+	}
+	
+	.header .nav li.login a.on{
+		background-position:-324px 0;
+	}
+	
+	.header .nav li.login a:hover{
+		background-position:-324px 0;
+	}
+	
+	.header .nav li a span{
+		display:block;
+		width:80px;
+		height:90px;
+		background:url(../img/1/menu.png) no-repeat right -197px;
+		font-size:0;
+		text-indent:-999px;
+		overflow:hidden;
+	}
+	
+	.header .nav li a.on span{
+		background:none;
+	}
+	
+	.header .nav li a:hover span{
+		background:none;
+	}
+
+	#homepage.mainbody {
+		background:url(../img/1/bk.jpg);
+		background-color: #16528E;
+		color:#ffffff;
+		height:405px;
+	}
+	
+	#homepage.mainbody #myCarousel,.row{
+		overflow:hidden;
+		height:405px;
+	}
+	
+	.mainbody .carousel-indicators li{
+		cursor:pointer;
+	}
+	
+	#product.mainbody {
+		color:#5a5a5a;
+	}
+	
+	#product.mainbody #intro{
+		padding-top:200px;
+	}
+	
+	#contact.mainbody .container{
+		padding-bottom:20px;
+	}
+	
+	#contact.mainbody .cnttitle{
+		background: #FFF;
+		position: relative;
+		bottom: -15px;
+		display: inline;
+		padding:2px;
+		margin-left:20px;
+	}
+	
+	#contact.mainbody .cntbody{
+		border: 1px solid #003D56;
+		padding:30px;
+		height:700px;
+	}
+	
+	#contact.mainbody .cntbody h4{
+		border-bottom:1px dashed #003D56;
+	}
+	
+	#contact.mainbody .cntbody div{
+		padding-bottom:20px;
+	}
+	
+	#contact.mainbody .cntbody img{
+		padding-left:600px;
+		clear:right;
+	}
+	
+	.bottomArea{
+		border-top:1px solid #d4d4d4;
+		background:#F6F6F6;
+	}
+	
+	.bottomArea .nav{
+		height:140px;
+		padding-top:20px;
+		padding-left:220px;
+		color:#888;
+	}
+	
+	.bottomArea .nav dl{
+		display:block;
+		float:left;
+		width:235px;
+	}
+	.bottomArea .nav dl dt{
+		height:14px;
+		padding-bottom:18px;
+	}
+	
+	.bottomArea .nav dl dd a:hover{
+		text-decoration:none;
+		color:#F90;
+	}
+	
+	.footer{
+		height:51px;
+		position:relative;
+		line-height:50px;
+		background:#252525;
+		text-align:center;
+		color:#969595;
+	}
+	
