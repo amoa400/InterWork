@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>个人设置</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+
+  </head>
+  <body>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+	<!--header-->
+	<div class="header">
+		<div class="container">	
+			<div class="logo"><a href="index.html" title="首页" >小轻松|管理中心</a></div>
+			<ul class="nav">
+				<li id="nav-project"><a href="index.html">中心首页</a></li>
+				<li id="nav-progress"><a href="message.html">消息提醒</a></li>
+				<li class="active" id="nav-me"><a href="#">个人设置</a></li>
+			</ul>				
+		</div>
+	</div>
+	<!--end of header-->
+	<!--main body-->
+	<div class="mainbody" id="settingPage">
+		<div class="container">		
+			<div id="settings">
+				<h4>个人设置</h4>
+				<div id="avatar-selection">						
+					<form action='fileupload' method='POST' enctype="multipart/form-data">
+						<div id="avatar-mini"><img src="img/纯阳萝莉.jpg" class="img-circle"  width="80" height="80"/></div>
+						<div id="avatar-upload">
+							<input type="file" name="file" id="file"/> <br/>
+							<input type='submit' value="上传头像">
+						</div>
+					</form>
+				</div>
+				<div id="information">
+					<form action="information" method="post">
+						<p>昵称 </p><input type="text" name="name" />
+						<p>密码 </p><input type="text" name="code" />
+						<p>重复密码 </p><input type="text" name="code2" />
+						<p>电话 </p><input type="text" name="tel" />
+						<p>QQ </p><input type="text" name="QQ" />
+						<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="reset" />
+						</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end of main body-->
+	<!-- footer -->
+	<div class="footer">
+		<p class="text-center">copyright@小轻松<a href="http://www.baidu.com" alt="你点我你也是查不到的！" title="你点我你也是查不到的！"><i class="icon-search icon-white"></i></a></p>
+	</div>
+	<!--end of footer-->
+  </body>
+</html>
