@@ -10,7 +10,7 @@ class UserAction extends Action{
 		$uid = "/\b".$uid."\b/";
 		$match = array();
 		
-		$inter = D("Obj/User");
+		$inter = D("Obj/Interview");
 		$relation = D("Relation/Belongs");
 		$G = D("Permission/Group");
 		$C = D("Obj/Company");
@@ -29,12 +29,8 @@ class UserAction extends Action{
 				continue; 
 			}
 			
-			$temp = $inter->where("cid={$item["cid"]}")->select();
-			foreach($temp as $i){
-				if(preg_match($uid, $i['interviewer'], $match)){
-					$interviews[$item['cid']][$i['id']] = $i;
-				}
-			}
+			$interviews[$item['cid']] = $inter->where("cid={$item["cid"]} AND interviewer REGEXP ';{$_SESSION["uid"]};'")->select();
+			
 		}
 		$this->assign("companys", $companys);
 		$this->assign("company_name", $company_name);

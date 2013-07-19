@@ -27,4 +27,7 @@
 	<?php
 		}
 	?>
+	<?php  if($permission['code'] & 1){   ?>
+	<div><a href="{$url_interview}&cid={$_GET['cid']}">面试查看</a></div>
+	<?php  }  ?>
 </div>

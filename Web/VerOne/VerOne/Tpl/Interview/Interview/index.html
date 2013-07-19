@@ -1,0 +1,15 @@
+<div>
+	<div><h1>{$company["name"]}</h1><b> 面试列表</b></div>
+	<div><a href="{$url_create}&cid={$_GET['cid']}">创建面试</a> <a href="{$url_history}&cid={$_GET['cid']}">查看历史</a></div>
+	<volist name="interviews" id="item">
+		<div><table>
+			<tr><td>面试人：</td><td>{$item["interviewee"]}</td></tr>
+			<tr><td>计划时间：</td><td>{$item["plantime"]}</td></tr>
+			<tr><td>面试信息：</td><td>{$item["info"]}</td></tr>
+			<?php $temp = $item["interviewee"]." 于 ".$item["plantime"]; ?>
+			<tr><td></td><td><a href="{$url_modify}&cid={$_GET['cid']}&inid={$item['id']}">修改</a> 
+					<a onclick="return confirm('确认要删除 {$temp} 的面试吗？')" href="{$url_del}&cid={$_GET['cid']}&inid={$item['id']}">删除</a></td></tr>
+		</table></div>
+	</volist>
+	<div><a href="{$url_return}&cid={$_GET['cid']}">返回</a></div>
+</div>

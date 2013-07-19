@@ -49,6 +49,7 @@ class CompanyAction extends Action{
 		$this->assign("url_pass_app", U("Profile/Company/pass_app"));
 		$this->assign("url_company_member", U("Profile/Company/member"));
 		$this->assign("url_return", U("Profile/User/index"));
+		$this->assign("url_interview", U("Interview/Interview/index"));
 		$this->assign("content", "Company:index");
 		$this->display("Public:Public:base");
 	}
@@ -84,7 +85,7 @@ class CompanyAction extends Action{
 							'uid'=>$_SESSION['uid'], 
 							'group'=>$admin['id']
 						))){
-				$this->redirect("Profile/Company/index", "", 1, "创建成功");
+				$this->redirect("Profile/User/index", "", 1, "创建成功");
 			}
 			$this->redirect("Profile/User/index", "", 5, "创建失败____");
 		}

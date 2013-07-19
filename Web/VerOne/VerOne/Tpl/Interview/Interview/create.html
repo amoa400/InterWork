@@ -1,0 +1,58 @@
+<div>
+	<div><h1>{$company["name"]}</h1><b> 创建面试</b></div>
+	<form action="{$url_create_a}" method="post">
+		<input type="hidden" name="cid" value="{$_GET['cid']}" />
+		<input type="hidden" name="interview_group" value="0" />
+		<table>
+			<tr><td>面试官：</td><td>
+								<volist name="interviewers" id="item">
+									<p><input type="checkbox" name="interviewers[]" value="{$item['uid']}" />{$item['name']}</p>
+								</volist>
+							</td></tr>
+			<tr><td>面试者：</td><td><input type="text" name="interviewee[1]" /></td></tr>
+			
+			<tr><td>时间：</td><td><input class="plantime" type="text" readonly="readonly" name="plantime[1]" title="点击设定时间"/></td></tr>
+			
+			<tr><td><a id="add_ee">添加</a></td></tr>
+			<tr><td>备注：</td><td><input type="text" name="info" /></td></tr>
+		</table>
+		<input type="submit" value="提交" />
+	</form>
+	<div><a href="{$url_return}&cid={$_GET['cid']}">返回</a></div>
+	
+	<link href="<?php echo __SRC__; ?>css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css">	
+	<script src="<?php echo __SRC__; ?>js/jquery-ui-timepicker-addon.js" type="text/javascript" ></script>
+	<script src="<?php echo __SRC__; ?>js/jquery-ui-timepicker-zh-CN.js" type="text/javascript" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			count = 2;
+			$(".plantime").datetimepicker({
+						dateFormat:"yy-mm-dd",
+						timeFormat:"HH:mm",
+						stepMinute:5
+			});
+			
+			$("#add_ee").click(function(){
+				var str = "<tr id=\"ee_del" + count + "\"><td>面试者：</td><td><input type=\"text\" name=\"interviewee[" + count + "]\" /></td></tr>";
+				str += "<tr id=\"time_del" + count + "\"><td>时间：</td><td><input class=\"plantime\" type=\"text\" readonly=\"readonly\" name=\"plantime[" + count + "]\" title=\"点击设定时间\" /></td></tr>";
+				str += "<tr><td><a id=\"del" + count + "\">删除</a></td></tr>";
+				
+				$(this).parent().parent().before(str);
+				$(".plantime").datetimepicker({
+						dateFormat:"yy-mm-dd",
+						timeFormat:"HH:mm",
+						stepMinute:5
+				});
+				$("#del" + count).click(function(){
+					var temp = $(this).attr("id");
+					$("#ee_" + temp).remove()
+					$("#time_" + temp).remove();
+					$(this).remove();
+					
+				});
+				count ++;
+			});
+			
+		});
+	</script>
+</div>

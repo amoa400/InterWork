@@ -1,0 +1,35 @@
+<div>
+	<div><h1>{$company["name"]}</h1><b> 修改面试</b></div>
+	<form action="{$url_modify_a}" method="post">
+		<input type="hidden" name="cid" value="{$interview['cid']}" />
+		<input type="hidden" name="interview_group" value="{$interview['interview_group']}" />
+		<input type="hidden" name="id" value="{$interview['id']}">
+		<table>
+			<tr><td>面试官：</td><td>
+								<volist name="interviewers" id="item">
+									<p><input type="checkbox" name="interviewers[]" value="{$item['uid']}" <?php if(preg_match("/.*;".$item["uid"].";.*/", $interview['interviewer'])){  echo 'checked="checked"';   }  ?> />{$item['name']}</p>
+								</volist>
+							</td></tr>
+			<tr><td>面试者：</td><td><input type="text" name="interviewee" value="{$interview['interviewee']}" /></td></tr>
+			
+			<tr><td>时间：</td><td><input class="plantime" type="text" readonly="readonly" name="plantime" title="点击设定时间" value="{$interview['plantime']}" /></td></tr>
+			<tr><td>备注：</td><td><input type="text" name="info" value="{$interview['info']}" /></td></tr>
+		</table>
+		<input type="submit" value="提交" />
+	</form>
+	<div><a href="{$url_return}&cid={$_GET['cid']}">返回</a></div>
+	
+	<link href="<?php echo __SRC__; ?>css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css">	
+	<script src="<?php echo __SRC__; ?>js/jquery-ui-timepicker-addon.js" type="text/javascript" ></script>
+	<script src="<?php echo __SRC__; ?>js/jquery-ui-timepicker-zh-CN.js" type="text/javascript" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".plantime").datetimepicker({
+						dateFormat:"yy-mm-dd",
+						timeFormat:"HH:mm",
+						stepMinute:5
+			});
+			
+		});
+	</script>
+</div>
