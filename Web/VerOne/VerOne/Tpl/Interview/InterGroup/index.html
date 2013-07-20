@@ -1,0 +1,132 @@
+<div>
+	<div><h1>{$company['name']}</h1></div>
+	<div><b>按组查看</b></div>
+	<div>
+		<a id="create_action">在当前目录创建分组</a>
+	</div>
+	<div id="create_form">
+		<input type="text" name="name" />
+		<a>提交</a>
+	</div>
+	
+	<div id="main_frame">
+	</div>
+	
+	<a href="{$url_return}&cid={$_GET['cid']}">返回</a>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#test").click(function(){
+				if(confirm("go?")){
+					$.get("{:U('Interview/InterGroup/test')}", {"aa":1, "bb":2}, function(data, status){
+						alert(data);
+						alert(status);
+					});
+				}
+			})
+		});
+	</script>
+	<script type="text/javascript">
+		
+		
+		function showdir(cid_p, gid_p){
+			cid = cid_p;
+			gid = gid_p;
+			$.post("{$url_showdir}",
+					{
+						"cid":cid,
+						"gid":gid
+					},
+					function(data, status){
+						if(status == "success"){
+							$("#main_frame").html(data);
+							$(".explorer_btn").children("div").hide();
+							$(".explorer_btn").mouseleave(function(){
+								$(this).children("div").hide();
+								$(this).css("background-color", "#FFFFFF");
+							});
+							$(".explorer_btn").mouseenter(function(){
+								$(this).children("div").show();
+								$(this).css("background-color", "#F0F0F0");
+							});
+							$(".explorer_btn").children("a").click(function(){
+								cid, gid = showdir(cid, $(this).parent().children("input").val());
+							})
+							$(".explorer_btn").children("div").children("[title]").click(function(){
+								
+								$.post("{$url_modify}",
+										{
+											"name":$(this).parent().children("input").val(),
+											"cid":cid,
+											"gid":$(this).parent().parent().children("input").val()
+										},
+										function(data, status){
+											if(status == "success"){
+												alert(data);
+												showdir(cid, gid);
+												//$("#create_form input").val(data);
+											}
+										});
+								
+							})
+							$(".explorer_item").children("div").hide();
+							$(".explorer_item").mouseleave(function(){
+								$(this).children("div").hide();
+								$(this).css("background-color", "#FFFFFF");
+							});
+							$(".explorer_item").mouseenter(function(){
+								$(this).children("div").show();
+								$(this).css("background-color", "#F0F0F0");
+							});
+							$(".explorer_item").children("div").children("[title]").click(function(){
+								if(confirm($(this).parent().parent().children("[name='tip']").val())){
+									$.get($(this).parent().parent().children("[name='url_del']").val(), function(){
+										showdir(cid, gid);
+									});
+								}
+							});
+						}
+						else{
+							$("#main_frame").html(status);
+						}
+					});	
+			return cid, gid;
+		}
+		
+		//str = "<table><tr><td>waha</td><td>wahahe</td></tr><td>haha</td><td>hehe</td><tr></tr></table>"
+		$(document).ready(function(){
+			gid = {$_GET['gid']};
+			cid = {$company['cid']};
+			
+			$("#create_form").hide();
+			$("#create_action").click(function(){
+				if($("#create_form").css("display") == "none"){
+					$("#create_form").slideDown();
+				}
+				else{
+					$("#create_form").slideUp();
+				}
+			});
+			
+			showdir(cid, gid);
+			
+			$("#create_form a").click(function(){
+				//$("#main_frame").text("wahah");
+				//alert("cid:"+cid+"gid:"+gid);
+				$.post("{$url_create}",
+						{
+							"name":$("#create_form input").val(),
+							"cid":cid,
+							"gid":gid
+						},
+						function(data, status){
+							if(status == "success"){
+								showdir(cid, gid);
+								$("#create_form input").val(data);
+							}
+						});
+			});
+			
+			
+		});
+	</script>
+</div>

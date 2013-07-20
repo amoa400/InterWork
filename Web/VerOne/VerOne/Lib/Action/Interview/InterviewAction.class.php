@@ -26,11 +26,12 @@ class InterviewAction extends Action{
 			$this->assign("url_create", U("Interview/Interview/create"));
 			$this->assign("url_modify", U("Interview/Interview/modify"));
 			$this->assign("url_return", U("Profile/Company/index"));
+			$this->assign("url_intergroup", U("Interview/InterGroup/index"));
 			$this->assign("content", "Interview:index");
 			$this->display("Public:Public:base");
 		}
 		else{
-			redirect("Profile/Company/index", "cid={$_GET['cid']}", 0, "");
+			$this->redirect("Profile/Company/index", "cid={$_GET['cid']}", 0, "");
 		}
 	}
 	
@@ -63,7 +64,7 @@ class InterviewAction extends Action{
 			$this->display("Public:Public:base");
 		}
 		else{
-			redirect("Profile/Company/index", "cid={$_GET['cid']}", 0, "");
+			$this->redirect("Profile/Company/index", "cid={$_GET['cid']}", 0, "");
 		}
 	}
 	
@@ -92,17 +93,30 @@ class InterviewAction extends Action{
 					$interviewers[$i['uid']] = $member->where("uid={$i["uid"]}")->find();
 				}
 			}
+			//var_dump($_GET);
+			if($_GET['ing'] == NULL){
+				$_GET['ing'] = 0;
+				$this->assign("url_return", U("Interview/Interview/index"));
+			}
+			else if(!D("Relation/InterviewGroup")->where("cid={$_GET["cid"]} AND id={$_GET["ing"]}")->find()){
+				$_GET['ing'] = 0;
+				$this->assign("url_return", U("Interview/InterGroup/index"));
+			}
+			else{
+				$this->assign("url_return", U("Interview/InterGroup/index"));
+			}
+			
 			$this->assign("interviewers", $interviewers);
 			
 			$this->assign("url_create_a", U("Interview/Interview/create_a"));
-			$this->assign("url_return", U("Interview/Interview/index"));
+			
 			$this->assign("company", $company);
 			
 			$this->assign("content", "Interview:create");
 			$this->display("Public:Public:base");
 		}
 		else{
-			redirect("Profile/Company/index", "cid={$_GET['cid']}", 0, "");
+			$this->redirect("Interview/Interview/index", "cid={$_GET['cid']}", 0, "");
 		}
 	}
 	
@@ -119,6 +133,7 @@ class InterviewAction extends Action{
 		
 		if($p['code'] & 8){
 			$interview = D("Obj/Interview");
+			//TODO: judge interview_group
 			foreach(array_keys($_POST["interviewee"]) as $i){
 				$inputArr = array();
 				$inputArr['interviewee'] = $_POST['interviewee'][$i];
@@ -136,7 +151,7 @@ class InterviewAction extends Action{
 				
 				$interview->add_interview( $inputArr );
 			}
-			$this->redirect("Interview/Interview/index", "cid={$_POST["cid"]}", 0, " ");
+			$this->redirect("Interview/InterGroup/index", "cid={$_POST["cid"]}&gid={$_POST["interview_group"]}", 0, " ");
 		}
 		else{
 			$this->redirect("Profile/Company/index", "cid={$_POST["cid"]}", 0, " ");
@@ -208,6 +223,7 @@ class InterviewAction extends Action{
 			if(!$update || (int)$update['finished'] == 1){
 				$this->redirect("Interview/Interview/index", "cid={$_POST["cid"]}", 0, " ");
 			}
+			//TODO: judge interview_group
 			$update['interviewee'] = $_POST['interviewee'];
 			$update['plantime'] = $_POST['plantime'];
 			$update['info'] = $_POST['info'];
@@ -218,7 +234,12 @@ class InterviewAction extends Action{
 			
 			D("Obj/Interview")->modify_interview( $update );
 			
-			$this->redirect("Interview/Interview/index", "cid={$_POST["cid"]}", 0, " ");
+			if((int)$_POST['rg'] == 0 || D("Relation/InterviewGroup")->where("cid={$_POST["cid"]} AND id={$_POST["rg"]}")->find()){
+				$this->redirect("Interview/InterGroup/index", "cid={$_POST["cid"]}&gid={$_POST["rg"]}", 0, " ");
+			}
+			else{
+				$this->redirect("Interview/Interview/index", "cid={$_POST["cid"]}", 0, " ");
+			}
 			//var_dump($update);
 		}
 		else{
@@ -244,7 +265,7 @@ class InterviewAction extends Action{
 			$this->redirect("Interview/Interview/index", "cid={$_GET["cid"]}", 0, " ");
 		}
 		else{
-			$this->redirect("Profile/Company/index", "cid={$_GET["cid"]}", 0, " ");
+			$this->redirect("Interview/Interview/index", "cid={$_GET["cid"]}", 0, " ");
 		}
 	} 
 	

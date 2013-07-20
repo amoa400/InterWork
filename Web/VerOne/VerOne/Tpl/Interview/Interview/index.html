@@ -1,6 +1,6 @@
 <div>
 	<div><h1>{$company["name"]}</h1><b> 面试列表</b></div>
-	<div><a href="{$url_create}&cid={$_GET['cid']}">创建面试</a> <a href="{$url_history}&cid={$_GET['cid']}">查看历史</a></div>
+	<div><a href="{$url_create}&cid={$_GET['cid']}">创建面试</a> <a href="{$url_history}&cid={$_GET['cid']}">查看历史</a> <a href="{$url_intergroup}&cid={$_GET['cid']}">按组查看</a></div>
 	<volist name="interviews" id="item">
 		<div><table>
 			<tr><td>面试人：</td><td>{$item["interviewee"]}</td></tr>

@@ -29,7 +29,7 @@ class UserAction extends Action{
 				continue; 
 			}
 			
-			$interviews[$item['cid']] = $inter->where("cid={$item["cid"]} AND interviewer REGEXP ';{$_SESSION["uid"]};'")->select();
+			$interviews[$item['cid']] = $inter->where("cid={$item["cid"]} AND finished=0 AND interviewer REGEXP ';{$_SESSION["uid"]};'")->select();
 			
 		}
 		$this->assign("companys", $companys);

@@ -1,0 +1,46 @@
+<div><a href="{$url_create_interview}&cid={$_POST['cid']}&ing={$self['id']}">在本组创建面试</a></div>
+<hr></hr>
+<?php
+	if($self['id']){
+?>
+	<div class="explorer_btn">
+		<input type="hidden" value="{$self['parent']}" />
+		<p><b>{$self['name']}</b></p>
+		<a>返回上一级</a>
+	</div>
+<?php	
+	}
+?>
+<volist name="subdir" id="item">
+	<div class="explorer_btn">
+		<input type="hidden" value="{$item['id']}" />
+		<a>{$item['name']}</a>
+		<div>
+			修改为<input type="text"><a title="修改为填写的名字">提交</a>
+			<a onclick="return confirm('确认删除分组 {$item['name']}? 所有的子分组以及面试将被移至其父分组。')" href="{$url_del}&cid={$_POST['cid']}&gid={$item['id']}&r={$item['parent']}">删除</a>
+		</div>
+	</div>
+</volist>
+
+<volist name="interviews" id="item">
+	<div class="explorer_item">
+		<p><b>{$item["interviewee"]}</b> 计划时间：<b>{$item["plantime"]}</b> 面试信息：<b>{$item["info"]}</b></p>
+		
+		<?php
+		if(!(int)$item['finished']){
+			$temp = $item["interviewee"]." 于 ".$item["plantime"]; ?>
+		<input type="hidden" name="tip" value="确认要删除 {$temp} 的面试吗？">
+		<input type="hidden" name="url_del" value="{$url_del_interview}&cid={$_POST['cid']}&inid={$item['id']}">
+		<div>
+			<a href="{$url_modify_interview}&cid={$_POST['cid']}&inid={$item['id']}&rg={$self['id']}">修改</a> 
+			<a title="删除该面试">删除</a>
+		</div>
+		<?php
+		}
+		else{
+		?>
+			<div>该面试已经完成。开始时间：<b>{:gmdate("Y-m-d H:i",$item['start_time'] + 8 * 3600)}</b>  结束时间：<b>{:gmdate("H:i", $item['end_time'] + 8 * 3600)}</b></div>
+		<?php  } ?>
+	</div>
+</volist>
+<hr></hr>
