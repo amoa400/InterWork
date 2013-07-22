@@ -20,7 +20,15 @@
 	<div>批量修改为：<select name="group">
 		<volist name="permissions" id="p"><option value="{$p['id']}">{$p["name"]}</option></volist>
 	</select><input type="submit" value="提交" /></div>
-	</form>
+	<div>
+		<p>添加成员</p>
+		</form>
+		<form action="{$url_add_member}" method="post">
+			Email：<input type="text" name="email" />
+			<input type="hidden" name="cid" value="{$_GET['cid']}" />
+			<input type="submit" value="提交" />
+		</form>
+	</div>
 	<div><a href="{$url_return}&cid={$_GET['cid']}">返回</a></div>
 
 	

@@ -27,6 +27,8 @@ class InterviewAction extends Action{
 			$this->assign("url_modify", U("Interview/Interview/modify"));
 			$this->assign("url_return", U("Profile/Company/index"));
 			$this->assign("url_intergroup", U("Interview/InterGroup/index"));
+			$this->assign("url_enter", U("Interview/Interview/enter_room_er"));
+			
 			$this->assign("content", "Interview:index");
 			$this->display("Public:Public:base");
 		}
@@ -59,7 +61,9 @@ class InterviewAction extends Action{
 			$this->assign("url_del", U("Interview/Interview/del_a"));
 			$this->assign("url_create", U("Interview/Interview/create"));
 			$this->assign("url_modify", U("Interview/Interview/modify"));
-			$this->assign("url_return", U("Profile/Company/index"));
+			$this->assign("url_return", U("Interview/Interview/index"));
+			$this->assign("url_enter", U("Interview/Interview/enter_room_er"));
+			
 			$this->assign("content", "Interview:history");
 			$this->display("Public:Public:base");
 		}
@@ -268,6 +272,113 @@ class InterviewAction extends Action{
 			$this->redirect("Interview/Interview/index", "cid={$_GET["cid"]}", 0, " ");
 		}
 	} 
+	
+	public function enter_room_er(){
+		if(!$_SESSION['login'] || !$_GET['cid'] || !$_GET['inid']){
+			$this->redirect("Home/Index/index", "", 0, "");
+		}
+		$relation = D("Relation/Belongs")->where("uid={$_SESSION["uid"]} AND cid={$_GET["cid"]}")->find();
+		if(!$relation){
+			$this->redirect("Profile/User/index", "", 0, "");
+		}
+		$p = D("Permission/Group")->where("id={$relation["group"]}")->find();
+		
+		if($p['code'] & 2){
+			$interview = D("Obj/Interview")->where("id={$_GET["inid"]} AND cid={$_GET["cid"]} AND finished=0")->find();
+			if(!$interview){
+				$this->redirect("Interview/Interview/index", "", 0, "");
+			}
+			
+			//var_dump($_SESSION);
+			$in_session = array();
+			$in_session['uid'] = $_SESSION['uid'];
+			$in_session['inid'] = $interview['id'];
+			$in_session['session_id'] = sha1($_SESSION['name'].uniqid());
+			
+			if(!(D("Session/Session")->add_session( $in_session ))){
+				$this->redirect("Interview/Interview/index", "", 0, "");//如果无法添加session_id则自动跳转返回
+			}
+			
+			$this->assign("session_id", $in_session['session_id']);
+			$this->assign("url_finish", U("Interview/Interview/finish"));
+			
+			$this->assign("content", "Interview:enter_room_er");
+			$this->display("Public:Public:base");
+			//var_dump($in_session);
+			//tpl 里面记得把cid存下来($_GET['cid']), 结束时放表单里
+			//echo $in_session['session_id'];
+		}
+	}
+	
+	//5c24 70aa55dae14622184987f1ea7ffbf48783ac5e1c
+	
+	public function enter_room_ee(){
+		$_SESSION['tip'] = NULL;
+		//账号生成规则：{cid}c{interview_id}
+		if(!$_POST['account'] || !$_POST['psw']){
+			$_SESSION['tip'] = "请输入面试号和密码";
+			$this->redirect("Home/Index/interviewee", "", 0, "");
+		}
+		$match = array();
+		if(!preg_match("/^[0-9]+c[0-9]+$/", $_POST['account'], $match)){
+			$_SESSION['tip'] = "面试号或密码不正确";
+			$this->redirect("Home/Index/interviewee", "", 0, "");
+		}
+		
+		
+		$in_session = array();
+		$in_session['uid'] = 0;
+		$cid = "";
+		sscanf($_POST['account'], "%dc%d", $cid, $in_session['inid']);
+		//$in_session['inid'] = (int)$in_session['inid'];
+		//var_dump($cid, $in_session);
+		//var_dump($match);
+		$interview = D("Obj/Interview")->where("id={$in_session['inid']} AND cid={$cid} AND finished=0")->find();
+		if(!$interview  || $interview['access_code'] != $_POST['psw']){
+			$_SESSION['tip'] = "面试号或密码不正确";
+			$this->redirect("Home/Index/interviewee", "", 0, "");
+		}
+		$in_session['session_id'] = sha1($_POST['psw'].uniqid());
+		
+		if(!(D("Session/Session")->add_session( $in_session ))){
+			$this->redirect("Home/Index/interviewee", "", 0, "");//如果无法添加session_id则自动跳转返回
+		}
+		
+		var_dump($in_session);
+		$this->assign("session_id", $in_session['session_id']);
+	
+	}
+	
+	public function finish(){
+		/****************************************************
+		POST表单需要参数
+		cid : 公司id
+		inid : 即room_id
+		start_time : 开始时间
+		end_time : 结束时间	
+		/****************************************************/
+		if(!$_SESSION['login'] || !$_POST['cid'] || !$_POST['inid']){
+			$this->redirect("Home/Index/index", "", 0, "");
+		}
+		$relation = D("Relation/Belongs")->where("uid={$_SESSION["uid"]} AND cid={$_POST["cid"]}")->find();
+		if(!$relation){
+			$this->redirect("Profile/User/index", "", 0, "");
+		}
+		$p = D("Permission/Group")->where("id={$relation["group"]}")->find();
+		
+		if($p['code'] & 2){
+			$interview = D("Obj/Interview")->where("id={$_POST["inid"]} AND cid={$_POST["cid"]} AND finished=0")->find();
+			if($interview){
+				$interview['start_time'] = (int)$_POST['start_time'];
+				$interview['end_time'] = (int)$_POST['end_time'];
+				$interview['finished'] = 1;
+				D("Obj/Interview")->modify_interview( $interview );
+			}
+		}
+		
+		$this->redirect("Interview/Interview/index", "cid={$_POST["cid"]}", 0, "");
+		
+	}
 	
 }
 

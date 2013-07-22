@@ -180,6 +180,8 @@ class InterGroupAction extends Action{
 			$this->assign("url_create_interview", U("Interview/Interview/create"));
 			$this->assign("url_modify_interview", U("Interview/Interview/modify"));
 			$this->assign("url_del_interview", U("Interview/Interview/del_a"));
+			$this->assign("url_enter", U("Interview/Interview/enter_room_er"));
+			
 			$this->assign("subdir", $subdir);
 			$this->assign("interviews", $interviews);
 			$this->assign("self", $self);

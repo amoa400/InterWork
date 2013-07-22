@@ -1,0 +1,23 @@
+<div>
+	<a id="start">start<a><a id="stop">stop</a>
+	<form action="{$url_finish}" method="post">
+		<input type="hidden" name="cid" value="{$_GET['cid']}" />
+		<input type="hidden" name="inid" value="{$_GET['inid']}" />
+		<input type="hidden" name="start_time" value="" />
+		<input type="hidden" name="end_time" value="" />
+		<input type="submit" value="提交">
+	</form>
+	{$session_id}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#start").click(function(){
+				d = new Date();
+				$("input[name='start_time']").val(Math.round(d.getTime() / 1000));
+			});
+			$("#stop").click(function(){
+				d = new Date();
+				$("input[name='end_time']").val(Math.round(d.getTime() / 1000));
+			});
+		})
+	</script>
+</div>

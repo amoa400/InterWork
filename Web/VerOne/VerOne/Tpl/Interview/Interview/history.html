@@ -7,8 +7,14 @@
 			<tr><td>面试人：</td><td>{$item["interviewee"]}</td></tr>
 			<tr><td>计划时间：</td><td>{$item["plantime"]}</td></tr>
 			<tr><td>面试信息：</td><td>{$item["info"]}</td></tr>
+			<tr><td>面试人账号：</td><td>{$_GET['cid']}c{$item['id']}</td><td>密码：</td><td>{$item['access_code']}</td><td>
+				<?php if(substr_count($item['interviewer'], ";".$_SESSION['uid'].";")){  ?>
+					<b>-------------------（是该面试的面试官，加个高亮标记吧）</b>
+				<?php }  ?>
+			</td></tr>
 			<?php $temp = $item["interviewee"]." 于 ".$item["plantime"]; ?>
-			<tr><td></td><td><a href="{$url_modify}&cid={$_GET['cid']}&inid={$item['id']}">修改</a> 
+			<tr><td></td><td><a href="{$url_enter}&cid={$_GET['cid']}&inid={$item['id']}">进行面试</a>
+					<a href="{$url_modify}&cid={$_GET['cid']}&inid={$item['id']}">修改</a> 
 					<a onclick="return confirm('确认要删除 {$temp} 的面试吗？')" href="{$url_del}&cid={$_GET['cid']}&inid={$item['id']}">删除</a></td></tr>
 		</table></div>
 	</volist>

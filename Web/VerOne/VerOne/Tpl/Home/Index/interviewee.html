@@ -1,0 +1,16 @@
+<div>
+	<div>面试入口</div>
+	<form action="{$url_enter}" method="post">
+	<table>
+		<tr><td>面试号：</td><td><input type="text" name="account"></td></tr>
+		<tr><td>密码：</td><td><input type="password" name="psw"></td></tr>
+	</table>
+		<input type="submit" value="登陆">
+		<?php
+			if($_SESSION['tip']){
+		?>
+			<div>{$_SESSION['tip']}</div>
+		<?php  }   ?>
+	</form>
+	<div><a href="{$url_return}">返回首页</a></div>
+</div>

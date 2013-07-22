@@ -31,6 +31,7 @@ class InterviewModel extends Model {
 		$addArr['interview_group'] = $inputArr['interview_group'];
 		$addArr['info'] = $inputArr['info'];
 		$addArr['finished'] = 0;
+		$addArr['access_code'] = sha1($addArr['interviewee'].time());
 		
 		return $this->add($addArr);
 	}

@@ -13,11 +13,23 @@ class IndexAction extends Action{
 			$i = 0;
 		}
 		var_dump($arr);*/
+		if($_SESSION['login']){
+			$this->redirect("Profile/User/index", "", 0, "");
+		}
+		
 		$this->assign("url_logout", U("Home/Index/logout"));
 		$this->assign("url_login",U("Home/Index/login"));
 		$this->assign("url_regsiter", U("Home/Index/register"));
 		$this->assign("url_user_profile", U("Profile/User/index"));
+		$this->assign("url_interviewee", U("Home/Index/interviewee"));
 		$this->assign("content", "Index:index");
+		$this->display("Public:Public:base");
+	}
+	
+	public function interviewee(){
+		$this->assign("url_enter", U("Interview/Interview/enter_room_ee"));
+		$this->assign("url_return", U("Home/Index/index"));
+		$this->assign("content", "Index:interviewee");
 		$this->display("Public:Public:base");
 	}
 	

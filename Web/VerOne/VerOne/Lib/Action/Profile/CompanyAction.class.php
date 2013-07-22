@@ -159,6 +159,43 @@ class CompanyAction extends Action{
 		
 	}
 	
+	public function add_member(){
+		if(!$_SESSION['login'] || !$_POST['cid'] || !$_POST['email']){
+			$this->redirect("Home/Index/index", "", 0, "");
+		}
+		$relation = D("Relation/Belongs")->where("uid={$_SESSION["uid"]} AND cid={$_POST["cid"]}")->find();
+		$p = D("Permission/Group")->where("id={$relation["group"]}")->find();
+		
+		if($p['code'] & 32){
+			$R = D("Relation/Belongs");
+			$U = D("Obj/User");
+			
+			$user = $U->where("email='{$_POST["email"]}'")->find();
+			if(!$user){
+				$this->redirect("Profile/Company/show_members", "cid={$_POST["cid"]}", 1, "不存在该用户.");
+			}
+			
+			$update = $R->where("uid={$user["uid"]} AND cid={$_POST["cid"]}")->find();
+			if($update){
+				$this->redirect("Profile/Company/show_members", "cid={$_POST["cid"]}", 1, "该成员已存在");
+			}
+			$member = D("Permission/Group")->where("code=1")->find();
+			$inputArr = array();
+			$inputArr['cid'] = $_POST['cid'];
+			$inputArr['uid'] = $user['uid'];
+			$inputArr['group'] = $member['id'];
+			if($R->add_belong($inputArr)){
+				$this->redirect("Profile/Company/index", "cid={$_POST['cid']}", 1, "添加成功");
+			}
+			else{
+				$this->redirect("Profile/Company/index", "cid={$_POST['cid']}", 1, "添加失败");
+			}
+		}
+		else{
+			$this->redirect("Profile/Company/index", "cid={$_POST['cid']}", 1, "权限不足");
+		}
+	}
+	
 	public function show_members(){
 		if(!$_SESSION['login']){
 			$this->redirect("Home/Index/index", "", 0, "");
@@ -192,6 +229,7 @@ class CompanyAction extends Action{
 			$this->assign("member_details", $member_details);
 			$this->assign("content", "Company:show_members");
 			$this->assign("url_return", U("Profile/Company/index"));
+			$this->assign("url_add_member", U("Profile/Company/add_member"));
 			$this->display("Public:Public:base");
 			//var_dump($member_details);
 		}

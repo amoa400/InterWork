@@ -24,14 +24,21 @@
 
 <volist name="interviews" id="item">
 	<div class="explorer_item">
-		<p><b>{$item["interviewee"]}</b> 计划时间：<b>{$item["plantime"]}</b> 面试信息：<b>{$item["info"]}</b></p>
+		<p><b>{$item["interviewee"]}</b> 计划时间：<b>{$item["plantime"]}</b> 面试信息：<b>{$item["info"]}</b>
+		<?php if(substr_count($item['interviewer'], ";".$_SESSION['uid'].";")){  ?>
+			<b>-------------------（是该面试的面试官，加个高亮标记吧）</b>
+		<?php }  ?>
+		</p>
 		
 		<?php
 		if(!(int)$item['finished']){
 			$temp = $item["interviewee"]." 于 ".$item["plantime"]; ?>
+			
 		<input type="hidden" name="tip" value="确认要删除 {$temp} 的面试吗？">
 		<input type="hidden" name="url_del" value="{$url_del_interview}&cid={$_POST['cid']}&inid={$item['id']}">
 		<div>
+			<p>面试人账号：<b>{$_POST['cid']}c{$item['id']}</b> 密码：<b>{$item['access_code']}</b></p>
+			<a href="{$url_enter}&cid={$_POST['cid']}&inid={$item['id']}">进行面试</a>
 			<a href="{$url_modify_interview}&cid={$_POST['cid']}&inid={$item['id']}&rg={$self['id']}">修改</a> 
 			<a title="删除该面试">删除</a>
 		</div>
